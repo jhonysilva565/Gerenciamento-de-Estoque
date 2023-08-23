@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            margin-top: 100px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 50vh;
+            transform: translateY(-65%);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 24px;
+        }
+
+        form {
+            margin-top: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-control {
+            border-radius: 4px;
+            padding: 10px;
+            color: #333;
+            font-size: 14px;
+            border-radius: 10px;
+        }
+
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.3s ease;
+            border-radius: 12px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-primary:focus {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+        }
+
+        .btn-primary:active {
+            background-color: #003580;
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .return-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .return-btn a {
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .return-btn a:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Faça Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username">Usuário:</label>
+                <input type="text" id="id_username" name="username" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="id_password">Senha:</label>
+                <input type="password" id="id_password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Entrar</button>
+            {% if error_message %}
+            <div class="error-message">
+                {{ error_message }}
+            </div>
+            {% endif %}
+        </form>
+        <div class="return-btn">
+            <a href="/">Voltar para a página inicial</a>
+        </div>
+    </div>
+
+    <script>
+        // Verifica se a página foi carregada através de um clique em um link
+        if (performance.navigation.type === 1) {
+            // Aplica o efeito fade-out ao corpo da página
+            document.body.style.opacity = 0;
+
+            // Evento que é acionado antes de redirecionar para outra página
+            window.addEventListener('beforeunload', function() {
+                // Aplica o efeito fade-out ao corpo da página antes de sair
+                document.body.style.transition = 'opacity 0.5s';
+                document.body.style.opacity = 0;
+            });
+        }
+
+        // Aplica o efeito de fade-in ao corpo da página
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.style.opacity = 1;
+        });
+    </script>
+
+</body>
+</html>

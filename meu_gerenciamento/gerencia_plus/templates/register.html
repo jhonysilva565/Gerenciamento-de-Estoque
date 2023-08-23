@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Registre-se</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 85px;
+            color: #333333;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 13px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            color: #333333;
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #ffffff;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .error {
+            color: #FF0000;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .info {
+            font-size: 12px;
+            color: #777777;
+        }
+
+        .return-btn {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .return-btn a {
+            text-decoration: none;
+            color: #212121;
+            transition: color 0.3s ease;
+        }
+
+        .return-btn a:hover {
+            color: #0056b3;
+        }
+
+        .password-icon {
+            position: relative;
+            top: -34px;
+            right: 10px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("password");
+            var passwordIcon = document.getElementById("password-icon");
+            
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                passwordIcon.className = "password-icon far fa-eye-slash";
+            } else {
+                passwordInput.type = "password";
+                passwordIcon.className = "password-icon far fa-eye";
+            }
+        }
+
+        function handleRegistration() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var confirm_password = document.getElementById("confirm_password").value;
+            let errorDiv = document.getElementById("error-message");
+            
+            if (username.trim() === "" || password.trim() === "" || confirm_password.trim() === "") {
+                errorDiv.textContent = "Por favor, preencha todos os campos.";
+                return false;
+            }
+            
+            if (password !== confirm_password) {
+                errorDiv.textContent = "As senhas não coincidem. Por favor, digite a mesma senha nos dois campos de senha.";
+                return false;
+            }
+            
+            if (password.length < 3) {
+                errorDiv.textContent = "A senha deve ter pelo menos 3 caracteres.";
+                return false;
+            }
+            
+            return true; // Retorna true para enviar o formulário
+        }
+    </script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+    <h1>Registro</h1>
+    <form method="post" onsubmit="return handleRegistration();">
+        {% csrf_token %}
+        <label for="username">Nome de usuário:</label>
+        <input type="text" id="username" name="username" pattern=".*\d{3,}.*" required>
+        <p class="info">O nome de usuário deve conter pelo menos 3 números</p>
+        
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" pattern=".*\d{3,}.*" required>
+        <i id="password-icon" class="password-icon far fa-eye" onclick="togglePasswordVisibility()"></i>
+        <p class="info">A senha deve conter pelo menos 3 números</p>
+        
+        <label for="confirm_password">Confirmar Senha:</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+        
+        <p id="error-message" class="error"></p>
+        
+        <button type="submit">Registrar-se</button>
+    </form>
+    
+    <div class="return-btn">
+        <a href="/">Voltar para a página inicial</a>
+    </div>
+</body>
+</html>

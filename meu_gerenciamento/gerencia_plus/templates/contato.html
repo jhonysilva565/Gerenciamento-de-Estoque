@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" sizes="32x32" href="https://i.pinimg.com/736x/14/48/72/1448720a29c87a343ebb8f53f09f2eb0.jpg"
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-image: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+      padding-top: 50px;
+      padding-bottom: 50px;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.15);
+      display: none;  /* Hide the form container initially */
+    }
+
+    .form-control {
+      border-radius: 10px;
+    }
+
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+    .footer {
+      font-size: 14px;
+      text-align: center;
+      padding-top: 20px;
+    }
+  </style>
+
+  <title>StockFlow/Contato</title>
+</head>
+
+<body>
+  <div class="container form-container">
+    <h1 class="text-center mb-4">Dúvidas StockFlow</h1>
+    <p class="lead text-center mb-4">Informe o seu nome, email e qual a sua dúvida sobre o nosso sistema. </p>
+
+    <form id="btn btn-primary btn-block" method="post" action="{% url 'enviar_formulario' %}">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="name" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="name" name="nome" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" required>
+        <div id="emailHelp" class="form-text">Este email será usado para receber a resposta do suporte.</div>
+      </div>
+      <div class="mb-3">
+        <label for="message" class="form-label">Mensagem</label>
+        <textarea class="form-control" id="message" name="mensagem" rows="3" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+    </form>
+
+    <div class="footer">
+      <p>© 2023 StockFlow. Todos os direitos reservados.</p>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  <!-- Custom JS -->
+  <script>
+    $(document).ready(function () {
+      $('.form-container').fadeIn(1000);  // fadeIn effect
+
+      $('#contact-form').on('submit', function (e) {
+        e.preventDefault();
+
+        let name = $('#name').val();
+        let email = $('#email').val();
+        let message = $('#message').val();
+
+        if (name === "" || email === "" || message === "") {
+          alert('Por favor, preencha todos os campos.');
+          return false;
+        }
+
+        // Here you can add AJAX request to submit the form
+
+        // Reset form fields
+        $('#contact-form')[0].reset();
+      });
+    });
+  </script>
+
+</body>
+</html>

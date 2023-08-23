@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <title>Gerenciamento de Estoque</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin: 0px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #000000;
+            transition: background-color 0.3s ease;
+        }
+
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+            color: #333;
+        }
+
+        tr:hover {
+            background-color: #eaebff;
+        }
+
+        td:first-child {
+            font-weight: bold;
+            color: #666;
+        }
+
+        .delete-option {
+            cursor: pointer;
+            padding: 6px 12px;
+            background-color: #ff0000;
+            color: #fff;
+            border-radius: 38px;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+
+        .delete-option:hover {
+            background-color: #cc0000;
+        }
+
+        .delete-option svg {
+            width: 16px;
+            height: 16px;
+            fill: #fff;
+            margin-right: 6px;
+        }
+
+        .delete-text {
+            margin-bottom: 10px;
+            color: #666;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center; /* Centraliza os elementos dentro do container */
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        .search-bar {
+            padding: 10px;
+            width: 50%;  /* Altere conforme necessário */
+            border: 1px solid #ccc;
+            border-right: none;
+            border-radius: 20px 0 0 20px;
+            font-size: 16px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .search-button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-left: none;
+            background: #151515d4;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 0 25px 25px 0;
+            margin-right: 15px;  /* Adiciona uma margem à direita do botão de pesquisa */
+        }
+
+        .search-button:hover {
+            background: #151515d4;
+        }
+
+        .search-button:active {
+            background: #151515d4;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+
+
+        .new-item-button {
+            padding: 10px 20px;  /* adiciona padding para aumentar o botão */
+            background-color: #007bff;  /* cor de fundo */
+            color: #fff;  /* cor do texto */
+            font-size: 16px;  /* tamanho do texto */
+            border-radius: 20px;  /* bordas arredondadas */
+            border: none;  /* remove a borda padrão */
+            cursor: pointer;  /* muda o cursor ao passar o mouse */
+            transition: background-color 0.3s ease;  /* transição suave ao passar o mouse */
+            margin-right: 10px;
+        }
+
+        .new-item-button:hover {
+            background-color: #0056b3;  /* cor de fundo ao passar o mouse */
+        }
+
+        .new-item-button:active {
+            background-color: #004085;  /* cor de fundo ao clicar */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-bar" placeholder="Pesquise por um produto...">
+            <button id="searchButton" class="search-button">
+                <i class="fas fa-search"></i> <!-- ícone de busca do FontAwesome -->
+            </button>
+            <a href="{% url 'inicial' %}">
+                <button id="newItemButton" class="new-item-button">
+                    Cadastrar Novo Produto
+                </button>
+            </a>            
+
+        </div>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Nome do Produto</th>
+                <th>Quantidade em Unidade</th>
+                <th>Descrição</th>
+                <th>Peso (Kg)</th>
+                <th>Preço</th>
+                <th>Fornecedor</th>
+                <th>Categoria</th>
+                <th>Data de Entrada</th>
+            </tr>
+            {% for item in cadastro_estoque reversed %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.nome_produto }}</td>
+                <td>{{ item.quantidade }}</td>
+                <td>{{ item.descricao }}</td>
+                <td>{{ item.peso }}</td>
+                <td>R$ {{ item.preco|floatformat:2 }}</td>
+                <td>{{ item.fornecedor }}</td>
+                <td>{{ item.categoria }}</td>
+                <td>{{ item.data_entrada|date:"d/m/Y" }}</td>
+                <td>
+                    <button class="delete-option" onclick="excluirItem(event)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M19 6h-3V4h-2v2H8V4H6v2H5a1 1 0 0 0-1 1v1h16V7a1 1 0 0 0-1-1zM6 18v-7h12v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5-5h2v2h-2v-2zm-4 0h2v2H7v-2zm4 0h2v2h-2v-2zm-4 0h2v2H7v-2zm8-9h-1V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1H5a3 3 0 0 0-3 3v11a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3h-2V3a1 1 0 0 0-1-1zm-2 2v1h-2V4h2zM4 19V8a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zm5-7h4v2H9v-2z"/>
+                        </svg>
+                        Excluir
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+<script>
+ function excluirItem(event) {
+    const row = event.target.closest('tr');
+    const itemId = row.cells[0].textContent;
+
+    // Fazer uma requisição HTTP DELETE para o servidor
+    fetch(`/api/estoque/${itemId}/`, {  // A URL precisa ser atualizada para o caminho correto da API
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')  // Você precisa do token CSRF para autenticar a solicitação DELETE
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            // Se a requisição foi bem sucedida, remover a linha da tabela
+            row.remove();
+        } else {
+            throw new Error(`Request failed: ${response.status}`);
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+document.querySelector('#searchInput').addEventListener('keyup', function(e) {
+    var table = document.querySelector('table');
+    var rows = table.querySelectorAll('tr');
+    var text = e.target.value.toLowerCase();
+
+    // Começa no índice 1 para ignorar a linha do cabeçalho
+    for (var i = 1; i < rows.length; i++) {
+        var productName = rows[i].cells[1].textContent.toLowerCase();
+        rows[i].style.display = productName.includes(text) ? '' : 'none';
+    }
+});
+
+const searchInput = document.getElementById('searchInput');
+const searchButton = document.getElementById('searchButton');
+
+// Evento para o botão de pesquisa
+searchButton.addEventListener('click', function() {
+    performSearch(searchInput.value);
+});
+
+// Evento para a tecla 'Enter' na barra de pesquisa
+searchInput.addEventListener('keyup', function(event) {
+    if (event.keyCode === 13) {  // 'Enter' tem keyCode 13
+        performSearch(searchInput.value);
+    }
+});
+
+// Função para realizar a pesquisa
+function performSearch(query) {
+    // implemente a lógica de pesquisa aqui...
+    console.log(`Buscando por "${query}"`);
+}
+
+const newItemButton = document.getElementById('newItemButton');
+        newItemButton.addEventListener('click', function() {
+            // Aqui você pode redirecionar para a página de cadastramento de produtos
+            window.location.href = '/inicial';  // atualize esta URL para a página correta
+        });
+
+</script>
+</html>
