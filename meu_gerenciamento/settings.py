@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+from google.oauth2 import id_token
+from google.auth.transport import requests
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'gerencia_plus'
+    'gerencia_plus',
+    'allauth',
+    'allauth.account',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +52,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'meu_gerenciamento.urls'
@@ -122,4 +127,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 
-
+GOOGLE_OAUTH2_CLIENT_ID = '394642464859-hf0v5m51m5tq76mvqe77ajk7aaeu8inm.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET = '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'

@@ -8,6 +8,10 @@ from .models import Gerenciamento, Review, Contato
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login as auth_login
 from django.urls import reverse
+from .models import Login
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 def home(request):
     return render(request, 'gerenciamento/home.html')
@@ -21,9 +25,11 @@ def inicial(request):
 from django.shortcuts import render, redirect
 from .models import Gerenciamento
 
+@login_required  # Adicione o decorador para garantir que apenas usuários autenticados possam acessar esta view
 def salvo(request):
     if request.method == 'POST':
         gere = Gerenciamento()
+        gere.user = request.user  # Associe o usuário autenticado ao produto
         gere.nome_produto = request.POST.get('nome-produto')
         gere.quantidade = request.POST.get('quantidade')
         gere.descricao = request.POST.get('descricao')
@@ -38,23 +44,10 @@ def salvo(request):
 
     else:
         cadastro_estoque = {
-            'cadastro_estoque': Gerenciamento.objects.all()
+            'cadastro_estoque': Gerenciamento.objects.filter(user=request.user)  # Filtra os produtos pelo usuário autenticado
         }
 
         return render(request, 'estoque.html', cadastro_estoque)
-
-
-def compra(request):
-    if request.method == 'POST':
-        # Obtenha os dados do formulário
-        nome = request.POST.get('nome')
-        numero = request.POST.get('numero')
-        validade = request.POST.get('validade')
-        cvv = request.POST.get('cvv')
-
-        return HttpResponse("Pagamento realizado com sucesso!")
-
-    return render(request, 'compra.html')
 
 
 def avaliar(request):
@@ -109,9 +102,6 @@ def enviar_formulario(request):
     return render(request, 'contato.html')
 # Substitua 'formulario.html' pelo nome do seu template de formulário
 
-from django.contrib import messages
-
-from django.contrib import messages
 
 def register(request):
     user_exists_error = False
@@ -144,12 +134,23 @@ def login_view(request):
         password = request.POST.get('password')
         
         if username and password:
-            User = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=username, password=password)
             
-            if User is not None:
-                auth_login(request, User)
+            if user is not None:
+                auth_login(request, user)
+                
+                # Crie uma instância do modelo Login e salve as informações no banco de dados
+                login_instance = Login(usuario=username, senha=password)
+                login_instance.save()
+
                 return redirect('inicial')
             else:
                 error_message = 'Usuário ou senha inválidos.'
     
     return render(request, 'login.html', {'error_message': error_message})
+
+def politica_de_privacidade(request):
+    return render(request, 'politica_de_privacidade.html')
+
+def termos_de_servico(request):
+    return render(request, 'termos_de_servico.html')

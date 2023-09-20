@@ -2,7 +2,8 @@
 <html>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-    <title>Gerenciamento de Estoque</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.pinimg.com/750x/9a/ca/78/9aca78a052501b6445069daf6528e700.jpg"
+    <title></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -123,7 +124,7 @@
             border-radius: 20px;  /* bordas arredondadas */
             border: none;  /* remove a borda padrão */
             cursor: pointer;  /* muda o cursor ao passar o mouse */
-            transition: background-color 0.3s ease;  /* transição suave ao passar o mouse */
+            transition: background-color 0.5s ease;  /* transição suave ao passar o mouse */
             margin-right: 10px;
         }
 
@@ -188,9 +189,10 @@
     </div>
 </body>
 <script>
- function excluirItem(event) {
-    const row = event.target.closest('tr');
-    const itemId = row.cells[0].textContent;
+    function excluirItem(event) {
+        console.log("Função excluirItem chamada!"); // Adicione esta linha
+        const row = event.target.closest('tr');
+        const itemId = row.cells[0].textContent;
 
     // Fazer uma requisição HTTP DELETE para o servidor
     fetch(`/api/estoque/${itemId}/`, {  // A URL precisa ser atualizada para o caminho correto da API

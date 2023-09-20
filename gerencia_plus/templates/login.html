@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.pinimg.com/750x/9a/ca/78/9aca78a052501b6445069daf6528e700.jpg">
+    <meta name="google-signin-client_id" content="394642464859-hf0v5m51m5tq76mvqe77ajk7aaeu8inm.apps.googleusercontent.com">
     <style>
         body {
             background-color: #f8f9fa;
@@ -82,7 +85,7 @@
             opacity: 0.7;
             pointer-events: none;
         }
-        
+
         .error-message {
             color: #dc3545;
             font-size: 14px;
@@ -107,20 +110,39 @@
         .return-btn a:hover {
             color: #007bff;
         }
+
+        /* Estilos para mostrar/ocultar senha */
+        .password-toggle {
+            position: relative;
+        }
+
+        .password-toggle input[type="password"] {
+            padding-right: 35px;
+        }
+
+        .password-toggle .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 74%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #4b7eff;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Faça Login</h1>
+        <h1>Login</h1>
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
                 <label for="id_username">Usuário:</label>
                 <input type="text" id="id_username" name="username" class="form-control" required>
             </div>
-            <div class="form-group">
+            <div class="form-group password-toggle">
                 <label for="id_password">Senha:</label>
                 <input type="password" id="id_password" name="password" class="form-control" required>
+                <span class="toggle-password" onclick="togglePasswordVisibility(this)">Mostrar</span>
             </div>
             <button type="submit" class="btn btn-primary">Entrar</button>
             {% if error_message %}
@@ -129,29 +151,33 @@
             </div>
             {% endif %}
         </form>
+
+       <div class="g-signin2" data-onsuccess="onSignIn" style="margin: 20px auto;"></div>
+
         <div class="return-btn">
             <a href="/">Voltar para a página inicial</a>
         </div>
     </div>
 
     <script>
-        // Verifica se a página foi carregada através de um clique em um link
-        if (performance.navigation.type === 1) {
-            // Aplica o efeito fade-out ao corpo da página
-            document.body.style.opacity = 0;
-
-            // Evento que é acionado antes de redirecionar para outra página
-            window.addEventListener('beforeunload', function() {
-                // Aplica o efeito fade-out ao corpo da página antes de sair
-                document.body.style.transition = 'opacity 0.5s';
-                document.body.style.opacity = 0;
-            });
+        function togglePasswordVisibility(icon) {
+            var passwordField = document.getElementById("id_password");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                icon.textContent = "Ocultar";
+            } else {
+                passwordField.type = "password";
+                icon.textContent = "Mostrar";
+            }
         }
 
-        // Aplica o efeito de fade-in ao corpo da página
-        document.addEventListener('DOMContentLoaded', function() {
-            document.body.style.opacity = 1;
-        });
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            }
     </script>
 
 </body>

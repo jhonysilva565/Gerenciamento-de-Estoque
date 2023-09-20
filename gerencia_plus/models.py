@@ -2,10 +2,10 @@ from django.db import models
 from django.db import models, connection
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
-
+from django.contrib.auth.models import User
 
 class Gerenciamento(models.Model):
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     nome_produto = models.TextField(max_length=255)
     descricao = models.TextField(max_length=255)
     preco = models.DecimalField(max_digits=10, decimal_places=2)
@@ -14,6 +14,9 @@ class Gerenciamento(models.Model):
     fornecedor = models.TextField(max_length=255)
     categoria = models.CharField(max_length=255)
     data_entrada = models.DateField()
+
+    def __str__(self):
+        return self.nome_produto
 
 @receiver(post_delete, sender=Gerenciamento)
 def reset_ids_after_deletion(sender, instance, **kwargs):
@@ -66,3 +69,4 @@ class Login(models.Model):
 
     def __str__(self):
         return self.usuario
+

@@ -1,9 +1,9 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://i.pinimg.com/736x/14/48/72/1448720a29c87a343ebb8f53f09f2eb0.jpg">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.pinimg.com/750x/9a/ca/78/9aca78a052501b6445069daf6528e700.jpg">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -280,6 +280,34 @@
             margin-right: 10px;
             color: #cfcfcf;
         }
+
+        /* Estilos para o botão de Política de Privacidade */
+        .privacy-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .privacy-button .btn-primary {
+            background-color: #002f68;
+            border-color: #003a80;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .privacy-button .btn-primary:hover {
+            background-color: #0057c1;
+            border-color: #0057c1;
+        }
+
+        .btn {
+            background-color: #0057c1;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            border-top: none;
+        }
     </style>
 </head>
 
@@ -291,13 +319,13 @@
             <h2>StockFlow</h2>
         </div>
         <ul>
-            <li><a href="#top" id="homeBtn"><i class="fas fa-home"></i>Início</a></li>
+            <li><a href="#top" id="homeBtn"><i jclass="fas fa-home"></i>Início</a></li>
             <li><a href="{% url 'avaliar' %}"><i class="fas fa-eye"></i>Avaliar</a></li>
             <li><a href="{% url 'tutorial' %}"><i class="fas fa-book"></i>Tutorial StockFlow</a></li>
             <li><a href="{% url 'contato' %}"><i class="fas fa-envelope"></i>Contato</a></li>
         </ul>
     </nav>
-;
+
     <!-- Seção Principal -->
     <div class="main-section">
         <div class="content">
@@ -319,7 +347,7 @@
         <ul>
             <li><span>Otimização de Espaço:</span> Maximize o espaço de armazenamento com nosso sistema inteligente de organização.</li>
             <li><span>Auditoria de Estoque:</span> Facilite a auditoria do inventário com registros detalhados.</li>
-            <li><span>Simplicidade no uso do SF:</span> O StockFlow oferece um sistema de gerenciamento simples e fácil de usar.</li>
+            <li><span>Simplicidade de uso no SF:</span> O StockFlow oferece um sistema de gerenciamento simples e fácil de usar.</li>
             <li><span>Controle de Qualidade:</span> Garanta a qualidade dos produtos em estoque com nossas ferramentas de controle.</li>
         </ul>
     </div>
@@ -339,7 +367,12 @@
 
     <footer>
         <p style="text-align: center; color: white; padding: 10px 0;">&copy; 2023 StockFlow. Todos os direitos reservados.</p>
+        <a href="politica-de-privacidade" class="btn-primary" style="text-decoration: none; font-size: 14px; padding: 5px 15px;">Política de Privacidade</a>
     </footer>
+
+    <div class="privacy-button">
+        <a href="termos-de-servico" class="btn-primary" style="text-decoration: none; font-size: 14px; padding: 5px 15px;">Termos de Serviço</a>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -349,13 +382,13 @@
                 // Aplica o efeito fade-out ao corpo da página
                 $('body').hide().fadeIn(1000);
             }
-    
+
             // Adicionando a funcionalidade de rolagem suave ao clicar no botão Início
             $("#homeBtn").click(function(event) {
                 event.preventDefault();
                 $("html, body").animate({ scrollTop: 0 }, "slow");
             });
-    
+
             // Adicionando efeito de transição ao clicar no botão de login
             $("#loginBtn").click(function(event) {
                 event.preventDefault();
