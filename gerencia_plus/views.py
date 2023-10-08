@@ -3,11 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.shortcuts import render, redirect
 from django.http import Http404
-from django.http import HttpResponseRedirect, HttpResponse
-from .models import Gerenciamento, Review, Contato
-from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponseRedirect
+from .models import Gerenciamento, Contato
 from django.contrib.auth import authenticate, login as auth_login
-from django.urls import reverse
 from .models import Login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -69,7 +67,7 @@ def sucesso(request):
     if request.method == 'POST':
         rating = request.POST['rating']
         feedback = request.POST['feedback']
-        review = Review(rating=rating, feedback=feedback)
+        review = avaliar(rating=rating, feedback=feedback)
         review.save()
         return HttpResponseRedirect('/sucesso/')
 

@@ -41,7 +41,7 @@ def reset_ids_after_deletion(sender, instance, **kwargs):
             cursor.execute(f"UPDATE sqlite_sequence SET seq = {next_id} WHERE name = 'gerencia_plus_gerenciamento';")
     except: pass
 
-class Review(models.Model):
+class Avaliar(models.Model):
     RATING_CHOICES = [
         ('Excelente', 'Excelente'),
         ('Bom', 'Bom'),
