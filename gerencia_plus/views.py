@@ -12,7 +12,7 @@ from django.contrib import messages
 
 
 def home(request):
-    return render(request, 'gerenciamento/home.html')
+    return render(request, 'gerenciamento/index.html')
 
 def cadastro(request):
     return render(request, 'cadastro.html')
