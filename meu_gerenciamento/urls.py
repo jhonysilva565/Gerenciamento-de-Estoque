@@ -1,8 +1,6 @@
 from django.urls import path
 from gerencia_plus import views
 
-
-
 urlpatterns = [
     path('', views.home, name='home'),
     path('inicial/', views.inicial, name='inicial'),

@@ -20,23 +20,19 @@ class Gerenciamento(models.Model):
 
 @receiver(post_delete, sender=Gerenciamento)
 def reset_ids_after_deletion(sender, instance, **kwargs):
-    # Obter o ID do produto excluído
     try:
         deleted_id = instance.id
 
-    # Obter o próximo valor para o ID
         with connection.cursor() as cursor:
             
                 cursor.execute(f"SELECT MAX(id) FROM gerencia_plus_gerenciamento;")
                 result = cursor.fetchone()
                 max_id = result[0] if result[0] else 0
-        # Verificar se o ID excluído era o maior ID na tabela
         if deleted_id == max_id:
             next_id = deleted_id
         else:
             next_id = max_id + 0
 
-        # Reiniciar a sequência de IDs (específico para SQLite)
         with connection.cursor() as cursor:
             cursor.execute(f"UPDATE sqlite_sequence SET seq = {next_id} WHERE name = 'gerencia_plus_gerenciamento';")
     except: pass
